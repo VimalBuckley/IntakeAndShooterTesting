@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -34,5 +35,15 @@ public class Intake extends SubsystemBase {
 
     public Command zeroTilt() {
         return Commands.runOnce(() -> tiltMotor.getEncoder().setPosition(0));
+    }
+
+    public Command coastTilt() {
+        return Commands.runOnce(() -> tiltMotor.set(0));
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.addDoubleProperty("Speed", () -> runMotor.getEncoder().getVelocity(), null);
+        builder.addDoubleProperty("Tilt", () -> tiltMotor.getEncoder().getPosition(), null);
     }
 }

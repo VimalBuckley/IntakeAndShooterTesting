@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -58,5 +59,22 @@ public class Shooter extends SubsystemBase {
                 rightMotor.getPIDController().setReference(right, ControlType.kVelocity);
             }
         );
+    }
+
+    public Command off() {
+        return Commands.runOnce(
+            () -> {
+                leftMotor.set(0);
+                rightMotor.set(0);
+            }  
+        );
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.addDoubleProperty("Left Speed", () -> leftMotor.getEncoder().getVelocity(), null);
+        builder.addDoubleProperty("Right Speed", () -> rightMotor.getEncoder().getVelocity(), null);
+        builder.addDoubleProperty("Loader Speed", () -> loaderMotor.getEncoder().getVelocity(), null);
+        builder.addDoubleProperty("Tilt", () -> tiltMotor.getEncoder().getPosition(), null);
     }
 }
