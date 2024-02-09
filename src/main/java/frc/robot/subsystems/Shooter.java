@@ -55,8 +55,10 @@ public class Shooter extends SubsystemBase {
     public Command shoot(double left, double right) {
         return Commands.runOnce(
             () -> {
-                leftMotor.getPIDController().setReference(left, ControlType.kVelocity);
-                rightMotor.getPIDController().setReference(right, ControlType.kVelocity);
+                // leftMotor.getPIDController().setReference(left, ControlType.kVelocity);
+                // rightMotor.getPIDController().setReference(right, ControlType.kVelocity);
+                leftMotor.set(-0.7);
+                rightMotor.set(-0.9);
             }
         );
     }
@@ -76,5 +78,6 @@ public class Shooter extends SubsystemBase {
         builder.addDoubleProperty("Right Speed", () -> rightMotor.getEncoder().getVelocity(), null);
         builder.addDoubleProperty("Loader Speed", () -> loaderMotor.getEncoder().getVelocity(), null);
         builder.addDoubleProperty("Tilt", () -> tiltMotor.getEncoder().getPosition(), null);
+        builder.addDoubleProperty("LIDAR Measurement", () -> lidar.getValue(), null);
     }
 }
