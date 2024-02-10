@@ -30,6 +30,7 @@ public class Robot extends TimedRobot {
         ShuffleboardTab tab = Shuffleboard.getTab("Intake And Shooter Testing");
         tab.add(intake);
         tab.add(shooter);
+        tab.add(telescope);
 
         stick.button(12).onTrue(intake.zeroTilt());
 
@@ -41,7 +42,7 @@ public class Robot extends TimedRobot {
             intake.setOutput(0).andThen(
                 intake.setTilt(5)
             ).andThen(
-                shooter.pivot(-6.15).andThen(shooter.load(-0.25))
+                shooter.pivot(-6.15).andThen(shooter.load(-0.18)).andThen(telescope.goZero())
             ).andThen(
                 Commands.waitSeconds(1.8)
             ).andThen(
@@ -66,7 +67,7 @@ public class Robot extends TimedRobot {
         );
 
         stick.button(7).onTrue(
-            shooter.pivot(-3)//.andThen(telescope.goAmp())
+            telescope.goAmp().andThen(Commands.waitSeconds(0.5)).andThen(shooter.pivot(1))
         );
     }
 
